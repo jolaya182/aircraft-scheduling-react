@@ -5,8 +5,6 @@ const config = require("./webpack.config");
 
 module.exports = merge(config,{
     mode: "production",
-    devServer:{
-        contentBase: dist,
-        hot: true
-    }
+    target:"browserslist"
+
 })

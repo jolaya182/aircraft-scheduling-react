@@ -8,5 +8,6 @@ module.exports = merge(config,{
     devServer:{
         contentBase: dist,
         hot: true
-    }
+    },
+    target: "web"
 })
