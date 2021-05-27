@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
-import { FLIGHTS_SERVER, AIRCRAFTS_SERVER, TOTAL_SECONDS_DAY, REST_GAP } from "../const/const";
-import RotationList from "./Rotation";
+import {
+  FLIGHTS_SERVER,
+  AIRCRAFTS_SERVER,
+  TOTAL_SECONDS_DAY,
+  REST_GAP,
+} from "../const/const";
+import RotationList from "./RotationList";
 import Aircrafts from "./AirCrafts";
 import Flights from "./Flights";
 import Paginator from "./Paginator";
 import SideColumnContainer from "./SideColumnContainer";
-import MiddleColumnContainer from './MiddleColumnContainer';
+import MiddleColumnContainer from "./MiddleColumnContainer";
 
 const App = () => {
-  const initialSchedule = [];
   const [allAircrafts, setAirCrafts] = useState([]);
   const [currentDay, setCurrentDay] = useState(0);
+  const [totalFlightDays, setTotalDays] = useState(0);
   const [airCraftPercentageUsage, setAirCraftPercentageUsage] = useState(0);
   const [rotationSchedule, setRotationSchedule] = useState({ 0: [] });
 
@@ -20,6 +25,12 @@ const App = () => {
     arrivaltime - departuretime;
   const getNextDay = (currentDay) => currentDay + 1;
   const getPreviousDay = (currentDay) => currentDay - 1;
+  const setNextDay = () => {
+    if (currentDay < totalFlightDays - 1) setCurrentDay(getNextDay(currentDay));
+  };
+  const setPrevDay = () => {
+    if (currentDay > 0) setCurrentDay(getPreviousDay(currentDay));
+  };
   const invalidFlightEntry = (destination, origin) => destination != origin;
   const isNextDay = (arrivaltime, nextDayDeparturetime) =>
     arrivaltime > nextDayDeparturetime;
@@ -41,8 +52,7 @@ const App = () => {
 
   const getAirCraftPercentageUse = (rotationSchedule) => {
     const totalMinutes = getTotalFlightDuration(rotationSchedule);
-    const totalDays = Object.keys(rotationSchedule).length;
-    const totalMinutesForTotalDays = totalDays * TOTAL_SECONDS_DAY;
+    const totalMinutesForTotalDays = totalFlightDays * TOTAL_SECONDS_DAY;
     const result = (totalMinutes * 100) / totalMinutesForTotalDays;
     return (totalMinutes * 100) / totalMinutesForTotalDays;
   };
@@ -68,6 +78,7 @@ const App = () => {
           percentageDifference: percentageDifference,
           showInput: false,
           finalEndTime: finalEndTime,
+          day: day,
         };
 
         // compare current day with the next day
@@ -105,6 +116,7 @@ const App = () => {
       },
       {}
     );
+    setTotalDays(Object.keys(newRotationScheduleProcessed).length);
     setRotationSchedule(newRotationScheduleProcessed);
     setAirCraftPercentageUsage(
       getAirCraftPercentageUse(newRotationScheduleProcessed)
@@ -133,10 +145,14 @@ const App = () => {
     return departureTime > finalEndTime ? true : false;
   };
 
+  const isProposedDepartureAfterTomorrow = () =>
+    currentDay != 0 ? true : false;
+
   const rulesEnforced = (newFlight, newDepartureTime) => {
     if (
-      areFlightsGroundedMidNight(newFlight, departureTime) &&
-      areTurnAroundsEnforced(newFlight, departureTime)
+      areFlightsGroundedMidNight(newFlight, newDepartureTime) &&
+      areTurnAroundsEnforced(newFlight, newDepartureTime) &&
+      isProposedDepartureAfterTomorrow()
     )
       return true;
     return false;
@@ -149,6 +165,7 @@ const App = () => {
   };
 
   const editDepartureTime = (newDepartureTime, id) => {
+    console.log("newDepartureTime", newDepartureTime);
     const flight = findFlight(id);
     if (!rulesEnforced(flight, newDepartureTime)) return;
     const { duration } = flight;
@@ -167,22 +184,19 @@ const App = () => {
     setRotationSchedule(newRotationSchedule);
   };
 
-  const getFlightStartingToday = ()=>{
-      const totalDays = Object.keys(rotationSchedule).length;
-      const daysLeft = totalDays - currentDay;
-      const flightLeft = [];
-      for(let indx = currentDay; indx < daysLeft; indx += 1){
-        flightLeft.push( rotationSchedule[indx]);
-      }
-      return flightLeft;
-  }
+  const getAllFlights = () => {
+    const flig = Object.keys(rotationSchedule).map((day) => {
+      return rotationSchedule[day];
+    }, []);
+    return flig;
+  };
 
-  const processIncomingAircraftData = (aircrafts)=>{
-    const {data} = aircrafts;
+  const processIncomingAircraftData = (aircrafts) => {
+    const { data } = aircrafts;
     setAirCrafts(data);
-  }
+  };
 
-  const fetchAirCrafts = ()=>{
+  const fetchAirCrafts = () => {
     fetch(AIRCRAFTS_SERVER)
       .then((response) => {
         return response.json();
@@ -190,7 +204,21 @@ const App = () => {
       .then((json) => {
         processIncomingAircraftData(json);
       });
-  }
+  };
+
+  const getRotationFlightDay = (selectedId, day) => {
+    const flights = rotationSchedule[day];
+    const newRotationSchedule = { ...rotationSchedule };
+    const newFlights = flights.map((flight) => {
+      const { id, showInput } = flight;
+      return id != selectedId ? flight : { ...flight, showInput: !showInput };
+    });
+
+    newRotationSchedule[day] = newFlights;
+    // console.log("newRotationSchedule", newRotationSchedule)
+    setCurrentDay(day);
+    setRotationSchedule(newRotationSchedule);
+  };
 
   useEffect(() => {
     fetchAirFlights();
@@ -198,13 +226,16 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <div className={"tableHeight"}>
       <section>
-        <Paginator></Paginator>
+        <Paginator setNextDay={setNextDay} setPrevDay={setPrevDay}></Paginator>
       </section>
-      <section className="row tableHeight">
+      <section className="row">
         <SideColumnContainer>
-          <Aircrafts allAircrafts={allAircrafts} percentage={airCraftPercentageUsage}></Aircrafts>
+          <Aircrafts
+            allAircrafts={allAircrafts}
+            percentage={airCraftPercentageUsage}
+          ></Aircrafts>
         </SideColumnContainer>
 
         <MiddleColumnContainer>
@@ -214,10 +245,14 @@ const App = () => {
         </MiddleColumnContainer>
 
         <SideColumnContainer>
-          <Flights flights={getFlightStartingToday()}></Flights>
+          <Flights
+            flights={getAllFlights()}
+            getRotationFlightDay={getRotationFlightDay}
+            editDepartureTime={editDepartureTime}
+          ></Flights>
         </SideColumnContainer>
       </section>
-    </>
+    </div>
   );
 };
 

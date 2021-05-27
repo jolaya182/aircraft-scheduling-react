@@ -17,6 +17,7 @@ const FlightRotation = ({ flight }) => {
           time={arrivaltime}
         ></FlightLocationTime>
       </div>
+
     </div>
   );
 };

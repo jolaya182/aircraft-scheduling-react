@@ -1,36 +1,41 @@
 import FlightLocationTime from "./FlightLocationTime";
+import DepartureForm from "./DepartureForm";
 
-const Flights = ({ flights }) => {
+const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
   //
-  console.log();
   return (
     <>
       <main>
         <section>flights</section>
         <section>
-          {flights.map((day, index) => {
+          {flights.map((flightsPerDay, index) => {
             return (
-              <div key={"outterFlight-"+index}>
+              <div key={"outterFlight-" + index}>
                 <div> Day: {index} </div>
-                {day.map((flight, innerIndx) => {
+                {flightsPerDay.map((flight, innerIndx) => {
                   const {
                     id,
                     origin,
                     departuretime,
                     destination,
                     arrivaltime,
+                    day,
+                    showInput,
                   } = flight;
                   return (
-                    <div key={"flight-"+innerIndx}>
-                      <section> {id} </section>
-                      <FlightLocationTime
-                        location={origin}
-                        time={departuretime}
-                      ></FlightLocationTime>
-                      <FlightLocationTime
-                        location={destination}
-                        time={arrivaltime}
-                      ></FlightLocationTime>
+                    <div key={"flight-" + innerIndx}>
+                      <div onClick={() => getRotationFlightDay(id, day)}>
+                        <section> {id} </section>
+                        <FlightLocationTime
+                          location={origin}
+                          time={departuretime}
+                        ></FlightLocationTime>
+                        <FlightLocationTime
+                          location={destination}
+                          time={arrivaltime}
+                        ></FlightLocationTime>
+                      </div>
+                      {showInput && <DepartureForm editDepartureTime={(e)=>{e.preventDefault();editDepartureTime(day, id)}}/>}
                     </div>
                   );
                 })}
