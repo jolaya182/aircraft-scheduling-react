@@ -1,2 +1,4 @@
-export const apiServer = "https://infinite-dawn-93085.herokuapp.com/flights";
-export const totalSecondsDay = 86400;
+export const FLIGHTS_SERVER = "https://infinite-dawn-93085.herokuapp.com/flights";
+export const AIRCRAFTS_SERVER = "https://infinite-dawn-93085.herokuapp.com/aircrafts";
+export const TOTAL_SECONDS_DAY = 86400;
+export const REST_GAP = 1200;
