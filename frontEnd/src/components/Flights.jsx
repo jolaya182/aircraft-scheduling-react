@@ -35,7 +35,17 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
                           time={arrivaltime}
                         ></FlightLocationTime>
                       </div>
-                      {showInput && <DepartureForm editDepartureTime={(e)=>{e.preventDefault();editDepartureTime(day, id)}}/>}
+                      {showInput && (
+                        <DepartureForm
+                          editDepartureTime={(e) => {
+                            e.preventDefault();
+                            const hour = e.target.form[0].value;
+                            const minutes = e.target.form[1].value;
+                            const amPm = e.target.form[2].value;
+                            editDepartureTime( hour, minutes, amPm, id);
+                          }}
+                        />
+                      )}
                     </div>
                   );
                 })}

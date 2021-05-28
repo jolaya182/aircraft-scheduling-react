@@ -137,21 +137,39 @@ const App = () => {
   const areFlightsGroundedMidNight = (newFlight, departureTime) => {
     const { duration } = newFlight;
     const newArrivalTime = departureTime + duration;
+    const result = newArrivalTime < TOTAL_SECONDS_DAY ? true : false;
+    console.log("areFlightsGroundedMidNight", result);
     return newArrivalTime < TOTAL_SECONDS_DAY ? true : false;
   };
 
-  const areTurnAroundsEnforced = (newFlight, departureTime) => {
-    const { finalEndTime } = newFlight;
-    return departureTime > finalEndTime ? true : false;
+  const areTurnAroundsEnforced = (newDepartureTime) => {
+    const newFinalEnd = newDepartureTime + REST_GAP;
+    const dayFlights = rotationSchedule[currentDay];
+    const enforced = dayFlights.every((flight) => {
+      const { departuretime, finalEndTime } = flight;
+      return (
+        newDepartureTime >= departuretime &&
+        newDepartureTime <= finalEndTime) ||
+        (newFinalEnd >= departuretime && 
+          newFinalEnd <= finalEndTime)
+        ? false
+        : true;
+    });
+
+    console.log("enforced", enforced);
+    return enforced
   };
 
-  const isProposedDepartureAfterTomorrow = () =>
-    currentDay != 0 ? true : false;
+  const isProposedDepartureAfterTomorrow = () => {
+    const result = currentDay != 0 ? true : false;
+    console.log("isProposedDepartureAfterTomorrow", result);
+    return currentDay != 0 ? true : false;
+  };
 
   const rulesEnforced = (newFlight, newDepartureTime) => {
     if (
       areFlightsGroundedMidNight(newFlight, newDepartureTime) &&
-      areTurnAroundsEnforced(newFlight, newDepartureTime) &&
+      areTurnAroundsEnforced(newDepartureTime) &&
       isProposedDepartureAfterTomorrow()
     )
       return true;
@@ -164,17 +182,54 @@ const App = () => {
     );
   };
 
-  const editDepartureTime = (newDepartureTime, id) => {
+  //convert this to minutes
+  const convertToMinutes = (hour, minutes, amPm) => {
+    let newHour = hour > 12 ? hour - 12 : hour;
+    if (amPm === "pm") newHour = hour + (12 - (12 - hour));
+    return newHour * 60 * 60 + minutes * 60;
+  };
+  
+  const convertMinutesToReableTime = (totalMinutes)=>{
+    let hours = Math.floor(totalMinutes / 60 );
+    let minutes = (totalMinutes % 60) * 60;
+    hours = hours > 12 ?   hours + (12 - (12 - hour)) :  hours;
+    console.log("hours", hours);
+    minutes = minutes === 0 ? "00" : minutes.toString();
+    hours = hours < 10 ? "0"+hour : hour.toString();
+
+    return { readableTime : hours+":"+minutes };
+  }
+
+  const editDepartureTime = (hour, minutes, amPm, id) => {
+    if (hour === NaN || minutes === NaN) {
+      alert("please enter numbers");
+      return;
+    }
+    if (hour > 23 || minutes > 60) {
+      alert("please enter hour from 0 - 23 || 1 - 12 and minutes from 0 - 59");
+      return;
+    }
+    const newDepartureTime = convertToMinutes(hour, minutes, amPm);
+
     console.log("newDepartureTime", newDepartureTime);
     const flight = findFlight(id);
     if (!rulesEnforced(flight, newDepartureTime)) return;
     const { duration } = flight;
     const newArrivalTime = newDepartureTime + duration;
+    const newFinalEnd = newArrivalTime + REST_GAP;
+    const readableDeparture = convertMinutesToReableTime(newDepartureTime); 
+    const readableArrivale = convertMinutesToReableTime(newArrivalTime);
+    console.log("readableDeparture", readableDeparture, "readableArrivale", readableArrivale );
     const newFlight = {
       ...flight,
       departuretime: newDepartureTime,
       arrivaltime: newArrivalTime,
+      finalEndTime: newFinalEnd,
+      readable_departure: readableDeparture,
+      readable_arrival:readableArrivale
     };
+
+    console.log("newflight", newFlight);
     const flightsInCurrentDay = setNewFlight(
       rotationSchedule[currentDay],
       flight
@@ -207,14 +262,17 @@ const App = () => {
   };
 
   const getRotationFlightDay = (selectedId, day) => {
-    const flights = rotationSchedule[day];
-    const newRotationSchedule = { ...rotationSchedule };
-    const newFlights = flights.map((flight) => {
-      const { id, showInput } = flight;
-      return id != selectedId ? flight : { ...flight, showInput: !showInput };
+    const newRotationSchedule = {};
+    Object.keys(rotationSchedule).forEach((day, index) => {
+      const flights = rotationSchedule[day];
+      newRotationSchedule[day] = flights.map((flight) => {
+        const { id, showInput } = flight;
+        return id != selectedId
+          ? { ...flight, showInput: false }
+          : { ...flight, showInput: !showInput };
+      });
     });
 
-    newRotationSchedule[day] = newFlights;
     // console.log("newRotationSchedule", newRotationSchedule)
     setCurrentDay(day);
     setRotationSchedule(newRotationSchedule);
