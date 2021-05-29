@@ -1,5 +1,5 @@
 import FlightTimeBox from "./FlightTimeBox";
-import {  REST_GAP_PERCENTAGE, TOTAL_SECONDS_DAY} from "../const/const";
+import { REST_GAP_PERCENTAGE, TOTAL_SECONDS_DAY } from "../const/const";
 
 const FlightTimeLine = ({ rotationSchedule }) => {
   return (
@@ -17,24 +17,38 @@ const FlightTimeLine = ({ rotationSchedule }) => {
 
         <div className={"row flightBox"}>
           {rotationSchedule.map((flight, index, rotationArray) => {
-              let idleStart = 0
-              if(index != 0){ idleStart = rotationArray[index-1].finalEndTime }
-              const {departuretime} = flight;
-              const idleDistance = departuretime - idleStart; 
-              const idleDistancePercentage = (idleDistance * 100) / TOTAL_SECONDS_DAY;
-              const { percentageDifference } = flight;
-              const oddEvenColor = index % 2 ==0? "green":"orange";
-              const lastIdlePercentage = index === rotationArray.length + 1 ? ((TOTAL_SECONDS_DAY - finalEndTime) * 100 )/ TOTAL_SECONDS_DAY : false ;
-                console.log("idleDistancePercentage-> ", idleDistancePercentage)
-              return (
+            console.log("rotAra", rotationArray);
+            let idleStart = 0;
+            if (index != 0) {
+              idleStart = rotationArray[index - 1].finalEndTime;
+            }
+            const { departuretime } = flight;
+            const idleDistance = departuretime - idleStart;
+            const idleDistancePercentage = (
+              (idleDistance * 100) /
+              TOTAL_SECONDS_DAY
+            ).toFixed(2);
+            const { percentageDifference } = flight;
+            const oddEvenColor = index % 2 == 0 ? "green" : "orange";
+            const lastIdlePercentage =
+              index === rotationArray.length - 1
+                ? (
+                    ((TOTAL_SECONDS_DAY - rotationArray[index].finalEndTime) *
+                      100) /
+                    TOTAL_SECONDS_DAY
+                  ).toFixed(2)
+                : false;
+            console.log("idleDistancePercentage-> ", idleDistancePercentage);
+            console.log("percentageDifference-> ", percentageDifference);
+            console.log("lastIdlePercentage-> ", lastIdlePercentage);
+            return (
               <FlightTimeBox
                 key={"flight-rotion-graph-" + index}
-                percentageDifference={ percentageDifference }
-                color={ oddEvenColor}
+                percentageDifference={percentageDifference}
+                color={oddEvenColor}
                 idleDistancePercentage={idleDistancePercentage}
-                atEnd={lastIdlePercentage} 
-                >
-              </FlightTimeBox>
+                atEnd={lastIdlePercentage}
+              ></FlightTimeBox>
             );
           })}
         </div>
