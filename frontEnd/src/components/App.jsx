@@ -20,7 +20,7 @@ const App = () => {
   const [rotationSchedule, setRotationSchedule] = useState({ 0: [] });
 
   const getFlightPercentage = (duration) =>
-    (duration * 100) / TOTAL_SECONDS_DAY;
+  ((duration * 100) / TOTAL_SECONDS_DAY).toFixed(2);
   const getFlightDuration = (arrivaltime, departuretime) =>
     arrivaltime - departuretime;
   const getNextDay = (currentDay) => currentDay + 1;
@@ -50,17 +50,21 @@ const App = () => {
       );
     }, 0);
 
-  const getAirCraftPercentageUse = (rotationSchedule) => {
-    const totalMinutes = getTotalFlightDuration(rotationSchedule);
-    const totalMinutesForTotalDays = totalFlightDays * TOTAL_SECONDS_DAY;
-    const result = (totalMinutes * 100) / totalMinutesForTotalDays;
-    return (totalMinutes * 100) / totalMinutesForTotalDays;
+  const getAirCraftPercentageUse = (flights) => {
+    const totalSecondsPerDay = flights.reduce((totalSeconds, flight) => {
+      const { duration } = flight;
+      return totalSeconds + duration + REST_GAP;
+    },0);
+
+    const result = ((totalSecondsPerDay * 100) / TOTAL_SECONDS_DAY).toFixed(2);
+    return result;
   };
 
   //processing data functions
   const processIncomingAirFlightData = (airFlightData) => {
     const { data } = airFlightData;
     let rotationDayFlights = [];
+    let totalDuration = 0;
     let day = 0;
 
     const newRotationScheduleProcessed = data.reduce(
@@ -72,6 +76,7 @@ const App = () => {
         // set the flights new properties
         const duration = getFlightDuration(arrivaltime, departuretime);
         const percentageDifference = getFlightPercentage(duration);
+        totalDuration += duration;
         const finalEndTime = getFinalEndTime(arrivaltime);
         const durationPercenShowInput = {
           duration: duration,
@@ -116,11 +121,14 @@ const App = () => {
       },
       {}
     );
-    setTotalDays(Object.keys(newRotationScheduleProcessed).length);
+    const totalFlightDays = day + 1;
+    setTotalDays(totalFlightDays);
     setRotationSchedule(newRotationScheduleProcessed);
-    setAirCraftPercentageUsage(
-      getAirCraftPercentageUse(newRotationScheduleProcessed)
-    );
+
+    if (Object.keys(newRotationScheduleProcessed).length > 0)
+      setAirCraftPercentageUsage(
+        getAirCraftPercentageUse(newRotationScheduleProcessed[0])
+      );
   };
 
   // fetch data
@@ -147,17 +155,15 @@ const App = () => {
     const dayFlights = rotationSchedule[currentDay];
     const enforced = dayFlights.every((flight) => {
       const { departuretime, finalEndTime } = flight;
-      return (
-        newDepartureTime >= departuretime &&
+      return (newDepartureTime >= departuretime &&
         newDepartureTime <= finalEndTime) ||
-        (newFinalEnd >= departuretime && 
-          newFinalEnd <= finalEndTime)
+        (newFinalEnd >= departuretime && newFinalEnd <= finalEndTime)
         ? false
         : true;
     });
 
     console.log("enforced", enforced);
-    return enforced
+    return enforced;
   };
 
   const isProposedDepartureAfterTomorrow = () => {
@@ -183,56 +189,59 @@ const App = () => {
   };
 
   //convert this to minutes
-  const convertToMinutes = (hour, minutes, amPm) => {
+  const convertToSeconds = (hour, minutes, amPm) => {
     let newHour = hour > 12 ? hour - 12 : hour;
     if (amPm === "pm") newHour = hour + (12 - (12 - hour));
     return newHour * 60 * 60 + minutes * 60;
   };
-  
-  const convertMinutesToReableTime = (totalMinutes)=>{
-    let hours = Math.floor(totalMinutes / 60 );
-    let minutes = (totalMinutes % 60) * 60;
-    hours = hours > 12 ?   hours + (12 - (12 - hour)) :  hours;
-    console.log("hours", hours);
+
+  const convertMinutesToReableTime = (totalSeconds) => {
+    let hours = Math.floor(totalSeconds / 3600);
+    let minutes = (totalSeconds % 3600) / 60;
+    hours = hours > 12 ? hours - 12 : hours;
     minutes = minutes === 0 ? "00" : minutes.toString();
-    hours = hours < 10 ? "0"+hour : hour.toString();
+    var newH = hours;
+    hours = hours < 10 ? "0" + hours.toString() : hours.toString();
 
-    return { readableTime : hours+":"+minutes };
-  }
+    return hours + ":" + minutes;
+  };
 
-  const editDepartureTime = (hour, minutes, amPm, id) => {
-    if (hour === NaN || minutes === NaN) {
+  const editDepartureTime = (hour, minutes, amPm, flight) => {
+    if (isNaN(hour) === true || isNaN(minutes) === true) {
       alert("please enter numbers");
       return;
     }
+
     if (hour > 23 || minutes > 60) {
-      alert("please enter hour from 0 - 23 || 1 - 12 and minutes from 0 - 59");
+      alert("please enter hour from 0 - 23 or 1 - 12 and minutes from 0 - 59");
       return;
     }
-    const newDepartureTime = convertToMinutes(hour, minutes, amPm);
+    const newDepartureTime = convertToSeconds(hour, minutes, amPm);
 
-    console.log("newDepartureTime", newDepartureTime);
-    const flight = findFlight(id);
     if (!rulesEnforced(flight, newDepartureTime)) return;
     const { duration } = flight;
     const newArrivalTime = newDepartureTime + duration;
     const newFinalEnd = newArrivalTime + REST_GAP;
-    const readableDeparture = convertMinutesToReableTime(newDepartureTime); 
-    const readableArrivale = convertMinutesToReableTime(newArrivalTime);
-    console.log("readableDeparture", readableDeparture, "readableArrivale", readableArrivale );
+    const readableDeparture = convertMinutesToReableTime(newDepartureTime);
+    const readableArrival = convertMinutesToReableTime(newArrivalTime);
+    console.log(
+      "readableDeparture",
+      readableDeparture,
+      "readableArrival",
+      readableArrival
+    );
     const newFlight = {
       ...flight,
       departuretime: newDepartureTime,
       arrivaltime: newArrivalTime,
       finalEndTime: newFinalEnd,
       readable_departure: readableDeparture,
-      readable_arrival:readableArrivale
+      readable_arrival: readableArrival,
     };
 
-    console.log("newflight", newFlight);
     const flightsInCurrentDay = setNewFlight(
       rotationSchedule[currentDay],
-      flight
+      newFlight
     );
     const newRotationSchedule = { ...rotationSchedule };
     newRotationSchedule[currentDay] = flightsInCurrentDay;
@@ -240,10 +249,9 @@ const App = () => {
   };
 
   const getAllFlights = () => {
-    const flig = Object.keys(rotationSchedule).map((day) => {
+    return Object.keys(rotationSchedule).map((day) => {
       return rotationSchedule[day];
     }, []);
-    return flig;
   };
 
   const processIncomingAircraftData = (aircrafts) => {
@@ -273,9 +281,10 @@ const App = () => {
       });
     });
 
-    // console.log("newRotationSchedule", newRotationSchedule)
     setCurrentDay(day);
+    // airCraftPercentageUsage
     setRotationSchedule(newRotationSchedule);
+    setAirCraftPercentageUsage(getAirCraftPercentageUse(newRotationSchedule[day]))
   };
 
   useEffect(() => {
@@ -286,7 +295,11 @@ const App = () => {
   return (
     <div className={"tableHeight"}>
       <section>
-        <Paginator setNextDay={setNextDay} setPrevDay={setPrevDay}></Paginator>
+        <Paginator
+          setNextDay={setNextDay}
+          setPrevDay={setPrevDay}
+          currentDay={currentDay}
+        ></Paginator>
       </section>
       <section className="row">
         <SideColumnContainer>

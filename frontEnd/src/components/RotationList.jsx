@@ -8,16 +8,13 @@ const RotationList = ({ rotationSchedule }) => {
         <section>
           {rotationSchedule.map((flight, index) => {
             return (
-              <FlightRotation key={"flight-" + index} flight={flight}>
-                {" "}
+              <FlightRotation key={"flight-" + index} flight={flight} > 
                 {"flight-" + index}{" "}
               </FlightRotation>
             );
           })}
         </section>
-        <section>
-          <FlightTimeLine></FlightTimeLine>
-        </section>
+          <FlightTimeLine rotationSchedule={rotationSchedule}></FlightTimeLine>
       </main>
     </>
   );

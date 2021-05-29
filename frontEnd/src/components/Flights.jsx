@@ -42,7 +42,7 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
                             const hour = e.target.form[0].value;
                             const minutes = e.target.form[1].value;
                             const amPm = e.target.form[2].value;
-                            editDepartureTime( hour, minutes, amPm, id);
+                            editDepartureTime( hour, minutes, amPm, flight);
                           }}
                         />
                       )}

@@ -1,6 +1,6 @@
 import FlightLocationTime from "./FlightLocationTime";
 const FlightRotation = ({ flight }) => {
-  const { id, origin, departuretime, destination, arrivaltime } = flight;
+  const { id, origin, readable_departure, destination, readable_arrival } = flight;
   return (
     <div className="row">
       <div className="row">
@@ -9,12 +9,12 @@ const FlightRotation = ({ flight }) => {
       <div className={"row"}>
         <FlightLocationTime
           location={origin}
-          time={departuretime}
+          time={readable_departure}
         ></FlightLocationTime>
         <div> ---- </div>
         <FlightLocationTime
           location={destination}
-          time={arrivaltime}
+          time={readable_arrival}
         ></FlightLocationTime>
       </div>
 

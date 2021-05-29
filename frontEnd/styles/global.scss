@@ -54,5 +54,71 @@ button{
 .paginator{
     display: flex;
     flex-direction: row;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 20px;
+    font-size: 22px;
+
 }
 
+.paginator-arrows{
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    
+    &:hover{
+        color:blue;
+        // border: 3px solid black;
+        // border-radius: 10px;
+    }
+}
+
+.noSelect{
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+.flightBox{
+    width: 100%;
+}
+
+.flightBoxCol {
+    width: 100%;
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // position: center;
+}
+
+.chron-line{
+    border-bottom: var(--chronLine);
+    border-left: var(--chronLine);
+    border-right: var(--chronLine);
+    // border: var(--chronLine);
+    height: 10px;
+}
+
+.green-color{
+    background-color: green;
+    height: 20px;
+}
+
+.purple-color{
+    background-color: purple;
+    height: 20px;
+}
+
+.orange-color{
+    background-color: #ca7c16;
+    height: 20px;
+}
+
+.grey-color{
+    background-color: grey;
+    height: 20px;
+}
