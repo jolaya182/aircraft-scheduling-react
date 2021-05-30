@@ -47,6 +47,23 @@ button{
     flex-direction: row;
 }
 
+.flightBoxCol {
+    width: 100%;
+}
+
+.flightBoxColDestination {
+    width: 100%;
+    text-align:right;
+    // align-items: center;
+}
+
+.airport-col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // position: center;
+}
+
 .paginator{
     display: flex;
     flex-direction: row;
@@ -79,16 +96,7 @@ button{
     width: 100%;
 }
 
-.flightBoxCol {
-    width: 100%;
-}
 
-.roation-col{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    // position: center;
-}
 
 .chron-line{
     border-bottom: var(--chronLine);
@@ -109,4 +117,5 @@ button{
 
 .flight-location-time{
     cursor: pointer;
+    width: 100%
 }

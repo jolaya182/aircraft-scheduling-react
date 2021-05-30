@@ -1,5 +1,6 @@
 import FlightLocationTime from "./FlightLocationTime";
 import DepartureForm from "./DepartureForm";
+import { Card } from "react-bootstrap";
 
 const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
   //
@@ -7,51 +8,49 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
     <>
       <main>
         <section>flights</section>
-        <section>
+        <section className={"flightBox"}>
           {flights.map((flightsPerDay, index) => {
             return (
-              <div key={"outterFlight-" + index}>
-                <div> Day: {index} </div>
-                {flightsPerDay.map((flight, innerIndx) => {
-                  const {
-                    id,
-                    origin,
-                    departuretime,
-                    destination,
-                    arrivaltime,
-                    day,
-                    showInput,
-                  } = flight;
-                  return (
-                    <div key={"flight-" + innerIndx}>
-                      <div onClick={() => getRotationFlightDay(id, day)}>
-                        <section> {id} </section>
-                        <FlightLocationTime
-                          location={origin}
-                          time={departuretime}
-                          day={day}
-                        ></FlightLocationTime>
-                        <FlightLocationTime
-                          location={destination}
-                          time={arrivaltime}
-                          day={day}
-                        ></FlightLocationTime>
+              <Card key={"outterFlight-" + index} style={{ width: `${100}%` }}>
+                <Card.Body>
+                  {flightsPerDay.map((flight, innerIndx) => {
+                    const {
+                      id,
+                      origin,
+                      departuretime,
+                      destination,
+                      arrivaltime,
+                      day,
+                      showInput,
+                    } = flight;
+                    return (
+                      <div key={"flight-" + innerIndx}>
+                        <div onClick={() => getRotationFlightDay(id, day)}>
+                          <main> {id} </main>
+                          <FlightLocationTime
+                            origin={origin}
+                            departuretime={departuretime}
+                            destination={destination}
+                            arrivaltime={arrivaltime}
+                            day={day}
+                          ></FlightLocationTime>
+                        </div>
+                        {showInput && (
+                          <DepartureForm
+                            editDepartureTime={(e) => {
+                              e.preventDefault();
+                              const hour = e.target.form[0].value;
+                              const minutes = e.target.form[1].value;
+                              const amPm = e.target.form[2].value;
+                              editDepartureTime(hour, minutes, amPm, flight);
+                            }}
+                          />
+                        )}
                       </div>
-                      {showInput && (
-                        <DepartureForm
-                          editDepartureTime={(e) => {
-                            e.preventDefault();
-                            const hour = e.target.form[0].value;
-                            const minutes = e.target.form[1].value;
-                            const amPm = e.target.form[2].value;
-                            editDepartureTime( hour, minutes, amPm, flight);
-                          }}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </Card.Body>
+              </Card>
             );
           })}
         </section>
