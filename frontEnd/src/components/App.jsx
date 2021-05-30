@@ -303,7 +303,7 @@ const App = () => {
           currentDay={currentDay}
         ></Paginator>
       </section>
-      <section className="row">
+      <section className="airport-row">
         <SideColumnContainer>
           <Aircrafts
             allAircrafts={allAircrafts}
