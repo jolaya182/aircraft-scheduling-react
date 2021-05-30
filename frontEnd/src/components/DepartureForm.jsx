@@ -1,18 +1,22 @@
-const DepartureForm = ({editDepartureTime})=>{
-    
-    return (
-        <form>
-            <label htmlFor="hour"> hour </label>
-            <input id={"hour"} type="text"  ></input>
-            <label htmlFor="minutes"> minutes </label>
-            <input id={"minutes"} type="text"  ></input>
-            <select id={"amPm"}   >
-                <option value={"am"}>am</option>
-                <option value={"pm"}> pm</option>
-            </select>
-            <button onClick={editDepartureTime}>change</button>
-        
-        </form>);
-}
+import {Form, Button } from "react-bootstrap";
+
+const DepartureForm = ({ editDepartureTime }) => {
+  return (
+    <Form>
+      <Form.Group>
+        <Form.Label htmlFor="hour"> hour </Form.Label>
+        <Form.Control id={"hour"} type="text"></Form.Control>
+        <Form.Label htmlFor="minutes"> minutes </Form.Label>
+        <Form.Control id={"minutes"} type="text"></Form.Control>
+        <Form.Label htmlFor="amPm"> Select </Form.Label>
+        <Form.Control id={"amPm"} as="select">
+          <option value={"am"}>am</option>
+          <option value={"pm"}> pm</option>
+        </Form.Control>
+        <Button onClick={editDepartureTime}>change</Button>
+      </Form.Group>
+    </Form>
+  );
+};
 
 export default DepartureForm;
