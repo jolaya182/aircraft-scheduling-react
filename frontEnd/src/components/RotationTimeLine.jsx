@@ -1,7 +1,7 @@
-import FlightTimeBox from "./FlightTimeBox";
-import { REST_GAP_PERCENTAGE, TOTAL_SECONDS_DAY } from "../const/const";
+import RotationTimeBox from "./RotationTimeBox";
+import {  TOTAL_SECONDS_DAY } from "../const/const";
 
-const FlightTimeLine = ({ rotationSchedule }) => {
+const RotationTimeLine = ({ rotationSchedule }) => {
   return (
     <div className={"row flightBox"}>
       <div className={"col"}>
@@ -17,18 +17,12 @@ const FlightTimeLine = ({ rotationSchedule }) => {
 
         <div className={"row flightBox"}>
           {rotationSchedule.map((flight, index, rotationArray) => {
-            console.log("rotAra", rotationArray);
             let idleStart = 0;
             if (index != 0) {
               idleStart = rotationArray[index - 1].arrivaltime;
             }
-            const { departuretime, duration } = flight;
-            console.log("duration", duration);
-            console.log("idleStart", idleStart);
-            console.log("departuretime", departuretime);
-            
+            const { departuretime } = flight;
             const idleDistance = departuretime - idleStart;
-            console.log("idleDistance", idleDistance);
             const idleDistancePercentage = (
               (idleDistance * 100) /
               TOTAL_SECONDS_DAY
@@ -43,19 +37,16 @@ const FlightTimeLine = ({ rotationSchedule }) => {
                     TOTAL_SECONDS_DAY
                   )
                 : false;
-                console.log("idleDistancePercentage-> ", idleDistancePercentage);
-                console.log("percentageDifference-> ", percentageDifference);
-            console.log("lastIdlePercentage-> ", lastIdlePercentage);
+
             let result = percentageDifference + idleDistancePercentage
-            if(lastIdlePercentage){ const newResult = percentageDifference + idleDistancePercentage + lastIdlePercentage; console.log("total percentage", newResult)}else{ console.log("total percentage" , result)}
             return (
-              <FlightTimeBox
+              <RotationTimeBox
                 key={"flight-rotion-graph-" + index}
                 percentageDifference={percentageDifference}
                 color={oddEvenColor}
                 idleDistancePercentage={idleDistancePercentage}
                 lastIdlePercentage={lastIdlePercentage}
-              ></FlightTimeBox>
+              ></RotationTimeBox>
             );
           })}
         </div>
@@ -63,4 +54,4 @@ const FlightTimeLine = ({ rotationSchedule }) => {
     </div>
   );
 };
-export default FlightTimeLine;
+export default RotationTimeLine;

@@ -162,7 +162,7 @@ const App = () => {
         : true;
     });
 
-    console.log("enforced", enforced);
+    console.log("areTurnAroundsEnforced", enforced);
     return enforced;
   };
 
@@ -270,6 +270,8 @@ const App = () => {
   };
 
   const getRotationFlightDay = (selectedId, day) => {
+    // first day cannot be edited
+    if(day===0)return;
     const newRotationSchedule = {};
     Object.keys(rotationSchedule).forEach((day, index) => {
       const flights = rotationSchedule[day];

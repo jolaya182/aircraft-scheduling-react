@@ -1,5 +1,5 @@
 import FlightRotation from "./FlightRotation";
-import FlightTimeLine from "./FlightTimeLine";
+import RotationTimeLine from "./RotationTimeLine";
 const RotationList = ({ rotationSchedule }) => {
   return (
     <>
@@ -13,7 +13,7 @@ const RotationList = ({ rotationSchedule }) => {
             );
           })}
         </section>
-          <FlightTimeLine rotationSchedule={rotationSchedule}></FlightTimeLine>
+          <RotationTimeLine rotationSchedule={rotationSchedule}></RotationTimeLine>
       </main>
     </>
   );

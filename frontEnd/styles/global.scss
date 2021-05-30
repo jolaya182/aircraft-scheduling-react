@@ -101,8 +101,13 @@ button{
 
 .flight-time-box-base{
     height: var(--flightTimeBoxHeight);
+    border: var(--chronLine);
     &-green-color {@extend .flight-time-box-base; background-color: green;}   
     &-purple-color {@extend .flight-time-box-base;background-color: purple;}   
     &-orange-color {@extend .flight-time-box-base;background-color: #ca7c16;}   
     &-grey-color {@extend .flight-time-box-base;background-color: grey;}   
+}
+
+.flight-location-time{
+    cursor: pointer;
 }

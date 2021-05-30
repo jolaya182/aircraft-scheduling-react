@@ -1,6 +1,6 @@
 import {  REST_GAP_PERCENTAGE} from "../const/const";
 
-const FlightTimeBox = ({ percentageDifference, color, idleDistancePercentage, lastIdlePercentage }) => {
+const RotationTimeBox = ({ percentageDifference, color, idleDistancePercentage, lastIdlePercentage }) => {
   return (
     < >
       <div name={"idleDistancePercentage" }className={ `flight-time-box-base-grey-color  flightBox` } style={{width:`${idleDistancePercentage}%`}}>
@@ -25,4 +25,4 @@ const FlightTimeBox = ({ percentageDifference, color, idleDistancePercentage, la
     </>
   );
 };
-export default FlightTimeBox;
+export default RotationTimeBox;

@@ -29,10 +29,12 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
                         <FlightLocationTime
                           location={origin}
                           time={departuretime}
+                          day={day}
                         ></FlightLocationTime>
                         <FlightLocationTime
                           location={destination}
                           time={arrivaltime}
+                          day={day}
                         ></FlightLocationTime>
                       </div>
                       {showInput && (

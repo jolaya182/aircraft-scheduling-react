@@ -1,6 +1,6 @@
-const FlightLocationTime = ({ location, time }) => {
+const FlightLocationTime = ({ location, time, day }) => {
   return (
-    <main>
+    <main className={day != 0 ? "flight-location-time" : ""}>
       <div>{location}</div>
       <div>{time}</div>
     </main>
