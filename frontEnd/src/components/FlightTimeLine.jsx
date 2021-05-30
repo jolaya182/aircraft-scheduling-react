@@ -20,10 +20,15 @@ const FlightTimeLine = ({ rotationSchedule }) => {
             console.log("rotAra", rotationArray);
             let idleStart = 0;
             if (index != 0) {
-              idleStart = rotationArray[index - 1].finalEndTime;
+              idleStart = rotationArray[index - 1].arrivaltime;
             }
-            const { departuretime } = flight;
+            const { departuretime, duration } = flight;
+            console.log("duration", duration);
+            console.log("idleStart", idleStart);
+            console.log("departuretime", departuretime);
+            
             const idleDistance = departuretime - idleStart;
+            console.log("idleDistance", idleDistance);
             const idleDistancePercentage = (
               (idleDistance * 100) /
               TOTAL_SECONDS_DAY
