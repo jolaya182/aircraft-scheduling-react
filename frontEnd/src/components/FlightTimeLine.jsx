@@ -32,27 +32,29 @@ const FlightTimeLine = ({ rotationSchedule }) => {
             const idleDistancePercentage = (
               (idleDistance * 100) /
               TOTAL_SECONDS_DAY
-            ).toFixed(2);
-            const { percentageDifference } = flight;
+            );
+            const  {percentageDifference}  = flight;
             const oddEvenColor = index % 2 == 0 ? "green" : "orange";
             const lastIdlePercentage =
               index === rotationArray.length - 1
                 ? (
-                    ((TOTAL_SECONDS_DAY - rotationArray[index].finalEndTime) *
+                    ((TOTAL_SECONDS_DAY - rotationArray[index].arrivaltime) *
                       100) /
                     TOTAL_SECONDS_DAY
-                  ).toFixed(2)
+                  )
                 : false;
-            console.log("idleDistancePercentage-> ", idleDistancePercentage);
-            console.log("percentageDifference-> ", percentageDifference);
+                console.log("idleDistancePercentage-> ", idleDistancePercentage);
+                console.log("percentageDifference-> ", percentageDifference);
             console.log("lastIdlePercentage-> ", lastIdlePercentage);
+            let result = percentageDifference + idleDistancePercentage
+            if(lastIdlePercentage){ const newResult = percentageDifference + idleDistancePercentage + lastIdlePercentage; console.log("total percentage", newResult)}else{ console.log("total percentage" , result)}
             return (
               <FlightTimeBox
                 key={"flight-rotion-graph-" + index}
                 percentageDifference={percentageDifference}
                 color={oddEvenColor}
                 idleDistancePercentage={idleDistancePercentage}
-                atEnd={lastIdlePercentage}
+                lastIdlePercentage={lastIdlePercentage}
               ></FlightTimeBox>
             );
           })}

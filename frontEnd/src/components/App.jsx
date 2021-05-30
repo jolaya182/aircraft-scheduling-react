@@ -16,11 +16,11 @@ const App = () => {
   const [allAircrafts, setAirCrafts] = useState([]);
   const [currentDay, setCurrentDay] = useState(0);
   const [totalFlightDays, setTotalDays] = useState(0);
-  const [airCraftPercentageUsage, setAirCraftPercentageUsage] = useState(0);
-  const [rotationSchedule, setRotationSchedule] = useState({ 0: [] });
+  const [airCraftPercentageUsage, setAirCraftPercentageUsage] = useState("loading");
+  const [rotationSchedule, setRotationSchedule] = useState({ 0: [  {id:"loading", origin:"loading", readable_departure:"loading", destination:"loading", readable_arrival:"loading"}] });
 
   const getFlightPercentage = (duration) =>
-  ((duration * 100) / TOTAL_SECONDS_DAY).toFixed(2);
+  Number(((duration * 100) / TOTAL_SECONDS_DAY).toFixed(2));
   const getFlightDuration = (arrivaltime, departuretime) =>
     arrivaltime - departuretime;
   const getNextDay = (currentDay) => currentDay + 1;

@@ -9,7 +9,6 @@ const RotationList = ({ rotationSchedule }) => {
           {rotationSchedule.map((flight, index) => {
             return (
               <FlightRotation key={"flight-" + index} flight={flight} > 
-                {"flight-" + index}{" "}
               </FlightRotation>
             );
           })}

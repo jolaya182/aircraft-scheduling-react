@@ -47,10 +47,6 @@ button{
     flex-direction: row;
 }
 
-.tableHeight{
-    // height:80vh;
-
-}
 .paginator{
     display: flex;
     flex-direction: row;
@@ -103,22 +99,10 @@ button{
     height: 10px;
 }
 
-.green-color{
-    background-color: green;
-    height: 20px;
-}
-
-.purple-color{
-    background-color: purple;
-    height: 20px;
-}
-
-.orange-color{
-    background-color: #ca7c16;
-    height: 20px;
-}
-
-.grey-color{
-    background-color: grey;
-    height: 20px;
+.flight-time-box-base{
+    height: var(--flightTimeBoxHeight);
+    &-green-color {@extend .flight-time-box-base; background-color: green;}   
+    &-purple-color {@extend .flight-time-box-base;background-color: purple;}   
+    &-orange-color {@extend .flight-time-box-base;background-color: #ca7c16;}   
+    &-grey-color {@extend .flight-time-box-base;background-color: grey;}   
 }

@@ -3,23 +3,24 @@ import {  REST_GAP_PERCENTAGE} from "../const/const";
 const FlightTimeBox = ({ percentageDifference, color, idleDistancePercentage, lastIdlePercentage }) => {
   return (
     < >
-      <div className={ `grey-color  flightBox` } style={{wdith:`${idleDistancePercentage}%`}}>
+      <div name={"idleDistancePercentage" }className={ `flight-time-box-base-grey-color  flightBox` } style={{width:`${idleDistancePercentage}%`}}>
       </div>
 
       <div
-        className={`${color}-color flightBox `}
+        className={`flight-time-box-base-${color}-color flightBox `}
         style={{ width: `${percentageDifference}%` }}
       ></div>
 
       <div
-        className={"purple-color flightBox "}
+        className={"flight-time-box-base-purple-color flightBox "}
         style={{ width: `${REST_GAP_PERCENTAGE}%` }}
       ></div>
 
       {
-        lastIdlePercentage && <div
+        (lastIdlePercentage != false) ? <div name={"lastIdlePercentage"}
+        className={ `flight-time-box-base-grey-color  flightBox` }
         style={{ width: `${lastIdlePercentage}%` }}
-        ></div>
+        ></div> : ""
       }
     </>
   );
