@@ -1,5 +1,6 @@
- import {render} from "react-dom";
- import App from "./components/App";
+import { render } from "react-dom";
+import App from "./components/App";
+import "bootstrap/dist/css/bootstrap.css";
 import styles from "../styles/index.scss";
 
-render(<App/>, document.getElementById("root"));
+render(<App />, document.getElementById("root"));
