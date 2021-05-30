@@ -14,13 +14,25 @@ import MiddleColumnContainer from "./MiddleColumnContainer";
 
 const App = () => {
   const [allAircrafts, setAirCrafts] = useState([]);
+  const [currentAircraft, setCurrentAircraft ] = useState();
   const [currentDay, setCurrentDay] = useState(0);
   const [totalFlightDays, setTotalDays] = useState(0);
-  const [airCraftPercentageUsage, setAirCraftPercentageUsage] = useState("loading");
-  const [rotationSchedule, setRotationSchedule] = useState({ 0: [  {id:"loading", origin:"loading", readable_departure:"loading", destination:"loading", readable_arrival:"loading"}] });
+  const [airCraftPercentageUsage, setAirCraftPercentageUsage] =
+    useState("loading");
+  const [rotationSchedule, setRotationSchedule] = useState({
+    0: [
+      {
+        id: "loading",
+        origin: "loading",
+        readable_departure: "loading",
+        destination: "loading",
+        readable_arrival: "loading",
+      },
+    ],
+  });
 
   const getFlightPercentage = (duration) =>
-  Number(((duration * 100) / TOTAL_SECONDS_DAY).toFixed(2));
+    Number(((duration * 100) / TOTAL_SECONDS_DAY).toFixed(2));
   const getFlightDuration = (arrivaltime, departuretime) =>
     arrivaltime - departuretime;
   const getNextDay = (currentDay) => currentDay + 1;
@@ -54,7 +66,7 @@ const App = () => {
     const totalSecondsPerDay = flights.reduce((totalSeconds, flight) => {
       const { duration } = flight;
       return totalSeconds + duration + REST_GAP;
-    },0);
+    }, 0);
 
     const result = ((totalSecondsPerDay * 100) / TOTAL_SECONDS_DAY).toFixed(2);
     return result;
@@ -257,6 +269,8 @@ const App = () => {
   const processIncomingAircraftData = (aircrafts) => {
     const { data } = aircrafts;
     setAirCrafts(data);
+    const firstAircraftName = data[0].ident;
+    if(data.length > 0)setCurrentAircraft(firstAircraftName);
   };
 
   const fetchAirCrafts = () => {
@@ -271,7 +285,7 @@ const App = () => {
 
   const getRotationFlightDay = (selectedId, day) => {
     // first day cannot be edited
-    if(day===0)return;
+    if (day === 0) return;
     const newRotationSchedule = {};
     Object.keys(rotationSchedule).forEach((day, index) => {
       const flights = rotationSchedule[day];
@@ -286,7 +300,9 @@ const App = () => {
     setCurrentDay(day);
     // airCraftPercentageUsage
     setRotationSchedule(newRotationSchedule);
-    setAirCraftPercentageUsage(getAirCraftPercentageUse(newRotationSchedule[day]))
+    setAirCraftPercentageUsage(
+      getAirCraftPercentageUse(newRotationSchedule[day])
+    );
   };
 
   useEffect(() => {
@@ -303,6 +319,11 @@ const App = () => {
           currentDay={currentDay}
         ></Paginator>
       </section>
+      <div className={"airport-row"}>
+        <div class={"airport-col title-left"}>AirCrafts</div>
+        <div class={"airport-col title-middle"}>Rotation {currentAircraft}</div>
+        <div class={"airport-col title-right"}>Flights</div>
+      </div>
       <section className="airport-row">
         <SideColumnContainer>
           <Aircrafts

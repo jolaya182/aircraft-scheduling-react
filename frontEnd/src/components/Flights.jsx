@@ -7,7 +7,6 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
   return (
     <>
       <main>
-        <section>flights</section>
         <section className={"flightBox"}>
           {flights.map((flightsPerDay, index) => {
             return (
@@ -17,9 +16,9 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
                     const {
                       id,
                       origin,
-                      departuretime,
+                      readable_departure,
                       destination,
-                      arrivaltime,
+                      readable_arrival,
                       day,
                       showInput,
                     } = flight;
@@ -29,9 +28,9 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
                           <main> {id} </main>
                           <FlightLocationTime
                             origin={origin}
-                            departuretime={departuretime}
+                            readable_departure={readable_departure}
                             destination={destination}
-                            arrivaltime={arrivaltime}
+                            readable_arrival={readable_arrival}
                             day={day}
                           ></FlightLocationTime>
                         </div>

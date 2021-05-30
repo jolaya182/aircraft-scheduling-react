@@ -1,19 +1,30 @@
-import FlightRotation from "./FlightRotation";
+import RotationFlight from "./RotationFlight";
 import RotationTimeLine from "./RotationTimeLine";
+import { Card } from "react-bootstrap";
+
 const RotationList = ({ rotationSchedule }) => {
   return (
     <>
       <main>
-        <section>rotation</section>
-        <section>
+        <section className={"flightBox"}>
           {rotationSchedule.map((flight, index) => {
+            const { id } = flight;
             return (
-              <FlightRotation key={"flight-" + index} flight={flight} > 
-              </FlightRotation>
+              <Card key={"RotationList-" + index} style={{ width: `${100}%` }}>
+                <Card.Body>
+                  <div>Flight: {id} </div>
+                  <RotationFlight
+                    key={"flight-" + index}
+                    flight={flight}
+                  ></RotationFlight>
+                </Card.Body>
+              </Card>
             );
           })}
         </section>
-          <RotationTimeLine rotationSchedule={rotationSchedule}></RotationTimeLine>
+        <RotationTimeLine
+          rotationSchedule={rotationSchedule}
+        ></RotationTimeLine>
       </main>
     </>
   );

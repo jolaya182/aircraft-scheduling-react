@@ -1,7 +1,7 @@
 
 const SideColumnContainer = ( {children} ) => {
   return (
-    <div className={"sideColumns"}>
+    <div className={"column-side"}>
       <div className={"innerCol"}> {children}</div>
     </div>
   );

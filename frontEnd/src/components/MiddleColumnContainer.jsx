@@ -1,6 +1,6 @@
 const MiddleColumnContainer = ({children})=>{
     return (
-        <div className={"middleColumn"}>
+        <div className={"column-middle"}>
         <div className={"innerCol"}>
             {children}
         </div>

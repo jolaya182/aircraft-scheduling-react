@@ -2,7 +2,6 @@
 body{
     background-color: variables.$bg;
     color: var(--txt);
-    // font-size: 30px;
 }
 
 main{
@@ -14,37 +13,38 @@ main{
 button{
     font-size:1.5rem;
 }
+
 .innerCol{
     margin:2px;
     border:var(--simpleLine);
     width: 90%;
-    // height: 90vh;
     height: 100%;
     margin-top: var(--innerColMar);
     margin-bottom: var(--innerColMar);
-    // overflow-y: scroll;
     overflow-x: hidden;
 
 }
 
-.sideColumns{
-    width:25%;
-    border:var(--simpleLine);
+.column{
+    // border:var(--simpleLine);
     display: flex;
     flex-direction: column;
     align-items: center;
+    &-side{ @extend .column;width:25%;}
+    &-middle{ @extend .column;width: 50%;}    
 }
-.middleColumn{
-    width: 50%;
-    border:var(--simpleLine);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-}
+
 .airport-row{
     display: flex;
     flex-direction: row;
+}
+
+.airport-col{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // position: center;
 }
 
 .flightBoxCol {
@@ -55,13 +55,6 @@ button{
     width: 100%;
     text-align:right;
     // align-items: center;
-}
-
-.airport-col{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    // position: center;
 }
 
 .paginator{
@@ -78,11 +71,6 @@ button{
     margin-right: 20px;
     cursor: pointer;
     
-    &:hover{
-        color:blue;
-        // border: 3px solid black;
-        // border-radius: 10px;
-    }
 }
 
 .noSelect{
@@ -96,8 +84,6 @@ button{
     width: 100%;
 }
 
-
-
 .chron-line{
     border-bottom: var(--chronLine);
     border-left: var(--chronLine);
@@ -110,12 +96,33 @@ button{
     height: var(--flightTimeBoxHeight);
     border: var(--chronLine);
     &-green-color {@extend .flight-time-box-base; background-color: green;}   
-    &-purple-color {@extend .flight-time-box-base;background-color: purple;}   
-    &-orange-color {@extend .flight-time-box-base;background-color: #ca7c16;}   
-    &-grey-color {@extend .flight-time-box-base;background-color: grey;}   
+    &-purple-color {@extend .flight-time-box-base; background-color: purple;}   
+    &-orange-color {@extend .flight-time-box-base; background-color: #ca7c16;}   
+    &-grey-color {@extend .flight-time-box-base; background-color: grey;}   
 }
 
 .flight-location-time{
     cursor: pointer;
     width: 100%
 }
+
+.arrow{
+    text-align: center;
+    height: 100%;
+    
+}
+
+.aircraft{
+    border:var(--chronLine);
+    // margin:20px;
+    // display:flex;
+    text-align: center;
+}
+
+.title{
+    text-align: center;
+    &-left {@extend .title; width: 25% }
+    &-middle {@extend .title; width: 50% }
+    &-right {@extend .title; width: 25% }
+}
+
