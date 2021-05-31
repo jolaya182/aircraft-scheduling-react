@@ -125,5 +125,11 @@ button{
     &-left {@extend .title; width: 25% }
     &-middle {@extend .title; width: 50% }
     &-right {@extend .title; width: 25% }
+    &-bottom{@extend .title;border-bottom: var(--chronLine);
+        // display: flex;
+        // flex-direction: column;
+        width: 60%;   
+        margin:auto;  
+    }
 }
 

@@ -14,7 +14,7 @@ import MiddleColumnContainer from "./MiddleColumnContainer";
 
 const App = () => {
   const [allAircrafts, setAirCrafts] = useState([]);
-  const [currentAircraft, setCurrentAircraft ] = useState();
+  const [currentAircraft, setCurrentAircraft] = useState();
   const [currentDay, setCurrentDay] = useState(0);
   const [totalFlightDays, setTotalDays] = useState(0);
   const [airCraftPercentageUsage, setAirCraftPercentageUsage] =
@@ -270,7 +270,7 @@ const App = () => {
     const { data } = aircrafts;
     setAirCrafts(data);
     const firstAircraftName = data[0].ident;
-    if(data.length > 0)setCurrentAircraft(firstAircraftName);
+    if (data.length > 0) setCurrentAircraft(firstAircraftName);
   };
 
   const fetchAirCrafts = () => {
@@ -321,7 +321,12 @@ const App = () => {
       </section>
       <div className={"airport-row"}>
         <div className={"airport-col title-left"}>AirCrafts</div>
-        <div className={"airport-col title-middle"}>Rotation {currentAircraft}</div>
+        <div className={"airport-col title-middle"}>
+          Rotation {currentAircraft}
+          <div className={"  airport-row flightBoxCol  "}>
+            <div className={"airport-col title-bottom "}></div>
+          </div>
+        </div>
         <div className={"airport-col title-right"}>Flights</div>
       </div>
       <section className="airport-row">
