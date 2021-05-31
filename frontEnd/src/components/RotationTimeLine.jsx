@@ -3,19 +3,19 @@ import {  TOTAL_SECONDS_DAY } from "../const/const";
 
 const RotationTimeLine = ({ rotationSchedule }) => {
   return (
-    <div className={"airport-row flightBox"}>
+    <div className={"airport-row flight-box"}>
       <div className={"airport-col"}>
-        <div className={"airport-row flightBox"}>
+        <div className={"airport-row flight-box"}>
           <div className={"airport-col"}>00:00</div>
           <div className={"airport-col"}>12:00</div>
         </div>
 
-        <div className={"airport-row flightBox"}>
+        <div className={"airport-row flight-box"}>
           <div className={"chron-line airport-col"}> </div>
           <div className={"chron-line airport-col"}> </div>
         </div>
 
-        <div className={"airport-row flightBox"}>
+        <div className={"airport-row flight-box"}>
           {rotationSchedule.map((flight, index, rotationArray) => {
             let idleStart = 0;
             if (index != 0) {

@@ -1,135 +1,148 @@
 @use 'variables';
-body{
-    background-color: variables.$bg;
-    color: var(--txt);
+body {
+  background-color: variables.$bg;
+  color: var(--txt);
 }
 
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-button{
-    font-size:1.5rem;
+button {
+  font-size: 1.5rem;
 }
 
-.innerCol{
-    margin:2px;
-    border:var(--simpleLine);
-    width: 90%;
-    height: 100%;
-    margin-top: var(--innerColMar);
-    margin-bottom: var(--innerColMar);
-    overflow-x: hidden;
-
+.inner-col {
+  margin: 2px;
+  border: var(--simpleLine);
+  width: 90%;
+  height: 100%;
+  margin-top: var(--innerColMar);
+  margin-bottom: var(--innerColMar);
+  overflow-x: hidden;
 }
 
-.column{
-    // border:var(--simpleLine);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    &-side{ @extend .column;width:25%;}
-    &-middle{ @extend .column;width: 50%;}    
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &-side {
+    @extend .column;
+    width: 25%;
+  }
+  &-middle {
+    @extend .column;
+    width: 50%;
+  }
+}
+
+.airport {
+  display: flex;
+  &-row { @extend .airport; flex-direction: row;}
+  &-col { @extend .airport;   flex-direction: column;
+    width: 100%;}
+}
+
+.flight-box-col {
+  width: 100%;
+  &-destination {
+    @extend .flight-box-col;
+    text-align: right;
+  }
 }
 
 
-.airport-row{
-    display: flex;
-    flex-direction: row;
+.paginator {
+  display: flex;
+  flex-direction: row;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 20px;
+  font-size: 22px;
 }
 
-.airport-col{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    // position: center;
+.paginator-arrows {
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
 }
 
-.flightBoxCol {
-    width: 100%;
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.flightBoxColDestination {
-    width: 100%;
-    text-align:right;
-    // align-items: center;
+.flight-box {
+  width: 100%;
 }
 
-.paginator{
-    display: flex;
-    flex-direction: row;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    padding: 20px;
-    font-size: 22px;
+.chron-line {
+  border-bottom: var(--chronLine);
+  border-left: var(--chronLine);
+  border-right: var(--chronLine);
+  height: 10px;
 }
 
-.paginator-arrows{
-    margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-    
+.flight-time-box-base {
+  height: var(--flightTimeBoxHeight);
+  border: var(--chronLine);
+  &-green-color {
+    @extend .flight-time-box-base;
+    background-color: green;
+  }
+  &-purple-color {
+    @extend .flight-time-box-base;
+    background-color: purple;
+  }
+  &-orange-color {
+    @extend .flight-time-box-base;
+    background-color: #ca7c16;
+  }
+  &-grey-color {
+    @extend .flight-time-box-base;
+    background-color: grey;
+  }
 }
 
-.noSelect{
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
-    user-select: none;
+.flight-location-time {
+  cursor: pointer;
+  width: 100%;
 }
 
-.flightBox{
-    width: 100%;
+.arrow {
+  text-align: center;
+  height: 100%;
+  margin: auto;
+  max-width: 20px;
 }
 
-.chron-line{
+.aircraft {
+  border: var(--chronLine);
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  &-left {
+    @extend .title;
+    width: 25%;
+  }
+  &-middle {
+    @extend .title;
+    width: 50%;
+  }
+  &-right {
+    @extend .title;
+    width: 25%;
+  }
+  &-bottom {
+    @extend .title;
     border-bottom: var(--chronLine);
-    border-left: var(--chronLine);
-    border-right: var(--chronLine);
-    // border: var(--chronLine);
-    height: 10px;
+    width: 60%;
+    margin: auto;
+  }
 }
-
-.flight-time-box-base{
-    height: var(--flightTimeBoxHeight);
-    border: var(--chronLine);
-    &-green-color {@extend .flight-time-box-base; background-color: green;}   
-    &-purple-color {@extend .flight-time-box-base; background-color: purple;}   
-    &-orange-color {@extend .flight-time-box-base; background-color: #ca7c16;}   
-    &-grey-color {@extend .flight-time-box-base; background-color: grey;}   
-}
-
-.flight-location-time{
-    cursor: pointer;
-    width: 100%
-}
-
-.arrow{
-    text-align: center;
-    height: 100%;
-    margin:auto;
-    max-width: 20px;
-}
-
-.aircraft{
-    border:var(--chronLine);
-    // margin:20px;
-    // display:flex;
-    text-align: center;
-}
-
-.title{
-    text-align: center;
-    &-left {@extend .title; width: 25% }
-    &-middle {@extend .title; width: 50% }
-    &-right {@extend .title; width: 25% }
-    &-bottom{@extend .title;border-bottom: var(--chronLine);
-        // display: flex;
-        // flex-direction: column;
-        width: 60%;   
-        margin:auto;  
-    }
-}
-

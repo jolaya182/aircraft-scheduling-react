@@ -6,7 +6,7 @@ const RotationList = ({ rotationSchedule }) => {
   return (
     <>
       <main>
-        <section className={"flightBox"}>
+        <section className={"flight-box"}>
           {rotationSchedule.map((flight, index) => {
             const { id } = flight;
             return (

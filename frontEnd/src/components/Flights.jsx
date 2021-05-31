@@ -7,7 +7,7 @@ const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
   return (
     <>
       <main>
-        <section className={"flightBox"}>
+        <section className={"flight-box"}>
           {flights.map((flightsPerDay, index) => {
             return (
               <Card key={"outterFlight-" + index} style={{ width: `${100}%` }}>

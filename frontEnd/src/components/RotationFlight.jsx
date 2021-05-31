@@ -17,8 +17,8 @@ const RotationFlight = ({ flight }) => {
         <img  src={arrow} className={"airport-col arrow"}>
         </img>
         <div className={"airport-col "}>
-          <div className={" flightBoxColDestination"}>{destination}</div>
-          <div className={" flightBoxColDestination"}>{readable_arrival}</div>
+          <div className={" flight-box-col-destination"}>{destination}</div>
+          <div className={" flight-box-col-destination"}>{readable_arrival}</div>
         </div>
       </section>
   );

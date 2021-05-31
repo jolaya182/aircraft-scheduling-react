@@ -9,8 +9,8 @@ import RotationList from "./RotationList";
 import Aircrafts from "./AirCrafts";
 import Flights from "./Flights";
 import Paginator from "./Paginator";
-import SideColumnContainer from "./SideColumnContainer";
-import MiddleColumnContainer from "./MiddleColumnContainer";
+import ColumnContainer from "./ColumnContainer";
+import AirportHeader from "./AirportHeader";
 
 const App = () => {
   const [allAircrafts, setAirCrafts] = useState([]);
@@ -319,37 +319,28 @@ const App = () => {
           currentDay={currentDay}
         ></Paginator>
       </section>
-      <div className={"airport-row"}>
-        <div className={"airport-col title-left"}>AirCrafts</div>
-        <div className={"airport-col title-middle"}>
-          Rotation {currentAircraft}
-          <div className={"  airport-row flightBoxCol  "}>
-            <div className={"airport-col title-bottom "}></div>
-          </div>
-        </div>
-        <div className={"airport-col title-right"}>Flights</div>
-      </div>
+
+      <AirportHeader currentAircraft={currentAircraft}></AirportHeader>
       <section className="airport-row">
-        <SideColumnContainer>
+        <ColumnContainer wide={false}>
           <Aircrafts
             allAircrafts={allAircrafts}
             percentage={airCraftPercentageUsage}
           ></Aircrafts>
-        </SideColumnContainer>
-
-        <MiddleColumnContainer>
+        </ColumnContainer>
+        <ColumnContainer wide={true}>
           <RotationList
             rotationSchedule={rotationSchedule[currentDay]}
           ></RotationList>
-        </MiddleColumnContainer>
+        </ColumnContainer>
 
-        <SideColumnContainer>
+        <ColumnContainer wide={false}>
           <Flights
             flights={getAllFlights()}
             getRotationFlightDay={getRotationFlightDay}
             editDepartureTime={editDepartureTime}
           ></Flights>
-        </SideColumnContainer>
+        </ColumnContainer>
       </section>
     </div>
   );

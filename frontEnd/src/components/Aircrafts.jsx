@@ -2,8 +2,7 @@ import { Card } from "react-bootstrap";
 const Aircrafts = ({allAircrafts, percentage}) => {
   return (
     <>
-      <main>
-        <section  className={"flightBox"}>
+        <section  className={"flight-box"}>
           {allAircrafts.map((aircraft, index)=>{
             return (
             <Card key={"Aircrafts-" + index} style={{ width: `${100}%` }}>
@@ -18,7 +17,6 @@ const Aircrafts = ({allAircrafts, percentage}) => {
           })
         }
           </section>
-      </main>
     </>
   );
 };

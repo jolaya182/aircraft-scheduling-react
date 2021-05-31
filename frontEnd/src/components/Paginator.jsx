@@ -8,7 +8,7 @@ const Paginator = ({setNextDay, setPrevDay, currentDay}) => {
   
   return (
     <main>
-      <section className="paginator noSelect">
+      <section className="paginator no-select">
 
       <div onClick={setPrevDay} className={"paginator-arrows"}> {"< "} </div>
       <div>{`${dayMonthYear}`}</div>
