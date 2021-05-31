@@ -1,5 +1,4 @@
-import FlightLocationTime from "./FlightLocationTime";
-import arrow from "../../images/arrow.svg";
+import arrow from '../../images/arrow.svg';
 const RotationFlight = ({ flight }) => {
   const {  origin, readable_departure, destination, readable_arrival, day } =
     flight;

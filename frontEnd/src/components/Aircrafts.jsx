@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card } from 'react-bootstrap';
 const Aircrafts = ({allAircrafts, percentage}) => {
   return (
     <>

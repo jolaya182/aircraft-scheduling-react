@@ -1,7 +1,9 @@
-import RotationTimeBox from "./RotationTimeBox";
-import {  TOTAL_SECONDS_DAY } from "../const/const";
-
+import RotationTimeBox from './RotationTimeBox';
+import { useContext } from 'react';
+import StateContext from './StateContext';
 const RotationTimeLine = ({ rotationSchedule }) => {
+  const {state} = useContext(StateContext);
+  const {totalSecondsDay} = state;
   return (
     <div className={"airport-row flight-box"}>
       <div className={"airport-col"}>
@@ -25,16 +27,16 @@ const RotationTimeLine = ({ rotationSchedule }) => {
             const idleDistance = departuretime - idleStart;
             const idleDistancePercentage = (
               (idleDistance * 100) /
-              TOTAL_SECONDS_DAY
+              totalSecondsDay
             );
             const  {percentageDifference}  = flight;
             const oddEvenColor = index % 2 == 0 ? "green" : "orange";
             const lastIdlePercentage =
               index === rotationArray.length - 1
                 ? (
-                    ((TOTAL_SECONDS_DAY - rotationArray[index].arrivaltime) *
+                    ((totalSecondsDay - rotationArray[index].arrivaltime) *
                       100) /
-                    TOTAL_SECONDS_DAY
+                    totalSecondsDay
                   )
                 : false;
 

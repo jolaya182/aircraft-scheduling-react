@@ -1,6 +1,6 @@
-import FlightLocationTime from "./FlightLocationTime";
-import DepartureForm from "./DepartureForm";
-import { Card } from "react-bootstrap";
+import FlightLocationTime from './FlightLocationTime';
+import DepartureForm from './DepartureForm';
+import { Card } from 'react-bootstrap';
 
 const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
   //

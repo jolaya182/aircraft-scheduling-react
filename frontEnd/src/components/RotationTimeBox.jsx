@@ -1,10 +1,21 @@
-import {  REST_GAP_PERCENTAGE} from "../const/const";
+import { useContext } from 'react';
+import StateContext from './StateContext';
 
-const RotationTimeBox = ({ percentageDifference, color, idleDistancePercentage, lastIdlePercentage }) => {
+const RotationTimeBox = ({
+  percentageDifference,
+  color,
+  idleDistancePercentage,
+  lastIdlePercentage
+}) => {
+  const { state } = useContext(StateContext);
+  const {restGapPercentage} = state;
   return (
-    < >
-      <div name={"idleDistancePercentage" }className={ `flight-time-box-base-grey-color  flight-box` } style={{width:`${idleDistancePercentage}%`}}>
-      </div>
+    <>
+      <div
+        name={'idleDistancePercentage'}
+        className={`flight-time-box-base-grey-color  flight-box`}
+        style={{ width: `${idleDistancePercentage}%` }}
+      ></div>
 
       <div
         className={`flight-time-box-base-${color}-color flight-box `}
@@ -12,16 +23,19 @@ const RotationTimeBox = ({ percentageDifference, color, idleDistancePercentage, 
       ></div>
 
       <div
-        className={"flight-time-box-base-purple-color flight-box "}
-        style={{ width: `${REST_GAP_PERCENTAGE}%` }}
+        className={'flight-time-box-base-purple-color flight-box '}
+        style={{ width: `${restGapPercentage}%` }}
       ></div>
 
-      {
-        (lastIdlePercentage != false) ? <div name={"lastIdlePercentage"}
-        className={ `flight-time-box-base-grey-color  flight-box` }
-        style={{ width: `${lastIdlePercentage}%` }}
-        ></div> : ""
-      }
+      {lastIdlePercentage != false ? (
+        <div
+          name={'lastIdlePercentage'}
+          className={`flight-time-box-base-grey-color  flight-box`}
+          style={{ width: `${lastIdlePercentage}%` }}
+        ></div>
+      ) : (
+        ''
+      )}
     </>
   );
 };

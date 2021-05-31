@@ -1,6 +1,6 @@
-import RotationFlight from "./RotationFlight";
-import RotationTimeLine from "./RotationTimeLine";
-import { Card } from "react-bootstrap";
+import RotationFlight from './RotationFlight';
+import RotationTimeLine from './RotationTimeLine';
+import { Card } from 'react-bootstrap';
 
 const RotationList = ({ rotationSchedule }) => {
   return (
