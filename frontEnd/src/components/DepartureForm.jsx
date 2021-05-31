@@ -1,3 +1,12 @@
+/**
+ * title: DepartureForm.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: form used to edit the flight's time
+ */
 import { Form, Button } from 'react-bootstrap';
 const DepartureForm = ({ editDepartureTime }) => {
   return (

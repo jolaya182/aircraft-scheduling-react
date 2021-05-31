@@ -1,3 +1,12 @@
+/**
+ * title: Flights.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: flight cards that holds the flights location and time
+ */
 import FlightLocationTime from './FlightLocationTime';
 import DepartureForm from './DepartureForm';
 import { Card } from 'react-bootstrap';

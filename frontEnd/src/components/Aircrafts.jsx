@@ -1,3 +1,13 @@
+/**
+ * title: Aircrafts.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: this component handles the list of aircrafts
+ */
+
 import { Card } from 'react-bootstrap';
 const Aircrafts = ({allAircrafts, percentage}) => {
   return (

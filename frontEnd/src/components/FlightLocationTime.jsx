@@ -1,3 +1,12 @@
+/**
+ * title: FlightLocationTime.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: component to display departure arrival time and locations
+ */
 const FlightLocationTime = ({
   origin,
   readable_departure,

@@ -1,3 +1,12 @@
+/**
+ * title: App.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: holds the entire application in this component
+ */
 import StateContext from './StateContext';
 import {
   FLIGHTS_SERVER,

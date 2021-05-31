@@ -1,3 +1,12 @@
+/**
+ * title: AirportHeader.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: displays the header with the name of the current aircraft
+ */
 const AirportHeader = ({currentAircraft}) => {
   return (
       <div className={"airport-row"}>

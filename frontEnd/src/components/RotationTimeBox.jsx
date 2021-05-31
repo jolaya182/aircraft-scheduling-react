@@ -1,3 +1,12 @@
+/**
+ * title: RotationTimeBox.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: the container of location and time for the rotation flight component
+ */
 import { useContext } from 'react';
 import StateContext from './StateContext';
 

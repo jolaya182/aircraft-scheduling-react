@@ -1,3 +1,12 @@
+/**
+ * title: UseAircraftsFromServer.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: hook that has the logic to handle the aircraft api call
+ */
 import { useState, useEffect } from 'react';
 
 const UseAircraftsFromServer = (AIRCRAFTS_SERVER) => {

@@ -1,3 +1,12 @@
+/**
+ * title: RotationFlight.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: the flight in the rotation list
+ */
 import arrow from '../../images/arrow.svg';
 const RotationFlight = ({ flight }) => {
   const {  origin, readable_departure, destination, readable_arrival, day } =

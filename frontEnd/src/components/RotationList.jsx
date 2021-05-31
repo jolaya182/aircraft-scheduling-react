@@ -1,3 +1,12 @@
+/**
+ * title: RotationList.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: displays all the flights scheduled for the selected day
+ */
 import RotationFlight from './RotationFlight';
 import RotationTimeLine from './RotationTimeLine';
 import { Card } from 'react-bootstrap';

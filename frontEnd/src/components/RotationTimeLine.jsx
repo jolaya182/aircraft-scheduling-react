@@ -1,3 +1,12 @@
+/**
+ * title: RotationTimeLine.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: graphical presentation of the rotation flight on a timeline
+ */
 import RotationTimeBox from './RotationTimeBox';
 import { useContext } from 'react';
 import StateContext from './StateContext';

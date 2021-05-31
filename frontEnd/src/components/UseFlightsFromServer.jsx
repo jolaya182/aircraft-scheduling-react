@@ -1,3 +1,12 @@
+/**
+ * title: UseFlightsFromServer.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: hook that has the logic to handle the flight api call
+ */
 import { useState, useEffect } from 'react';
 import { TOTAL_SECONDS_DAY, REST_GAP, DEFAULT_SCHEDULE } from '../const/const';
 

@@ -1,3 +1,12 @@
+/**
+ * title: Paginator.jsx
+ *
+ * date: 5/31/2021
+ *
+ * author: javier olaya
+ *
+ * description: simple pagination to display the date and navigate through the flights per day
+ */
 const Paginator = ({setNextDay, setPrevDay, currentDay}) => {
 
   let currentDate = new Date(2018, 0, (4+currentDay));
