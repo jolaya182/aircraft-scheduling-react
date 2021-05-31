@@ -13,7 +13,7 @@ import ColumnContainer from "./ColumnContainer";
 import AirportHeader from "./AirportHeader";
 
 const App = () => {
-  const [allAircrafts, setAirCrafts] = useState([]);
+  const [allAircrafts, setAirCrafts] = useState([{ ident: "loading" }]);
   const [currentAircraft, setCurrentAircraft] = useState();
   const [currentDay, setCurrentDay] = useState(0);
   const [totalFlightDays, setTotalDays] = useState(0);
@@ -49,18 +49,6 @@ const App = () => {
   const findFlight = (id) =>
     rotationSchedule[currentDay].find((flight) => flight.id === id);
   const getFinalEndTime = (arrivaltime) => arrivaltime + REST_GAP;
-
-  const getTotalFlightDuration = (rotationSchedule) =>
-    Object.keys(rotationSchedule).reduce((totalDays, day) => {
-      const flights = rotationSchedule[day];
-      return (
-        totalDays +
-        flights.reduce((dayMinutes, flight) => {
-          const { duration } = flight;
-          return duration + dayMinutes;
-        }, 0)
-      );
-    }, 0);
 
   const getAirCraftPercentageUse = (flights) => {
     const totalSecondsPerDay = flights.reduce((totalSeconds, flight) => {
@@ -184,7 +172,7 @@ const App = () => {
     return currentDay != 0 ? true : false;
   };
 
-  const rulesEnforced = (newFlight, newDepartureTime) => {
+  const areRulesEnforced = (newFlight, newDepartureTime) => {
     if (
       areFlightsGroundedMidNight(newFlight, newDepartureTime) &&
       areTurnAroundsEnforced(newDepartureTime) &&
@@ -218,30 +206,36 @@ const App = () => {
     return hours + ":" + minutes;
   };
 
-  const editDepartureTime = (hour, minutes, amPm, flight) => {
+  const isInputValid = (hour, minutes) => {
     if (isNaN(hour) === true || isNaN(minutes) === true) {
       alert("please enter numbers");
-      return;
+      return false;
     }
 
     if (hour > 23 || minutes > 60) {
       alert("please enter hour from 0 - 23 or 1 - 12 and minutes from 0 - 59");
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const getNewArrivalTime = (newDepartureTime, duration) =>
+    newDepartureTime + duration;
+  const getNewFinalEnd = (newArrivalTime) => newArrivalTime + REST_GAP;
+
+  const editDepartureTime = (hour, minutes, amPm, flight) => {
+    if (!isInputValid(hour, minutes)) return;
+
     const newDepartureTime = convertToSeconds(hour, minutes, amPm);
 
-    if (!rulesEnforced(flight, newDepartureTime)) return;
+    if (!areRulesEnforced(flight, newDepartureTime)) return;
+
     const { duration } = flight;
-    const newArrivalTime = newDepartureTime + duration;
-    const newFinalEnd = newArrivalTime + REST_GAP;
+    const newArrivalTime = getNewArrivalTime(newDepartureTime, duration);
+    const newFinalEnd = getNewFinalEnd(newArrivalTime);
     const readableDeparture = convertMinutesToReableTime(newDepartureTime);
     const readableArrival = convertMinutesToReableTime(newArrivalTime);
-    console.log(
-      "readableDeparture",
-      readableDeparture,
-      "readableArrival",
-      readableArrival
-    );
+
     const newFlight = {
       ...flight,
       departuretime: newDepartureTime,
@@ -298,7 +292,6 @@ const App = () => {
     });
 
     setCurrentDay(day);
-    // airCraftPercentageUsage
     setRotationSchedule(newRotationSchedule);
     setAirCraftPercentageUsage(
       getAirCraftPercentageUse(newRotationSchedule[day])
@@ -321,6 +314,7 @@ const App = () => {
       </section>
 
       <AirportHeader currentAircraft={currentAircraft}></AirportHeader>
+
       <section className="airport-row">
         <ColumnContainer wide={false}>
           <Aircrafts
