@@ -5,6 +5,9 @@ const config = require("./webpack.config");
 
 module.exports = merge(config,{
     mode: "production",
-    target:"browserslist"
+    target:"browserslist",
+    performance:{
+        hints:false
+    }
 
 })

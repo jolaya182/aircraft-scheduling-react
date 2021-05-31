@@ -9,6 +9,7 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: dist,
+    assetModuleFilename: "images/[hash][ext][query]"
   },
   devtool: "source-map",
   plugins: [
@@ -34,6 +35,10 @@ module.exports = {
           "sass-loader",
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)/i,
+        type:"asset"
+      }
     ],
   },
   resolve:{extensions:[".js", ".jsx"]}

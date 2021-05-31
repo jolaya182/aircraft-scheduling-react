@@ -320,9 +320,9 @@ const App = () => {
         ></Paginator>
       </section>
       <div className={"airport-row"}>
-        <div class={"airport-col title-left"}>AirCrafts</div>
-        <div class={"airport-col title-middle"}>Rotation {currentAircraft}</div>
-        <div class={"airport-col title-right"}>Flights</div>
+        <div className={"airport-col title-left"}>AirCrafts</div>
+        <div className={"airport-col title-middle"}>Rotation {currentAircraft}</div>
+        <div className={"airport-col title-right"}>Flights</div>
       </div>
       <section className="airport-row">
         <SideColumnContainer>

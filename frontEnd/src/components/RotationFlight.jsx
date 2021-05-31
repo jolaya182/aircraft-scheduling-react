@@ -1,4 +1,5 @@
 import FlightLocationTime from "./FlightLocationTime";
+import arrow from "../../images/arrow.svg";
 const RotationFlight = ({ flight }) => {
   const {  origin, readable_departure, destination, readable_arrival, day } =
     flight;
@@ -13,9 +14,8 @@ const RotationFlight = ({ flight }) => {
           <div className={" "}>{origin}</div>
           <div className={" "}>{readable_departure}</div>
         </div>
-        <div className={"airport-col arrow"}>
-          {"----->"}
-        </div>
+        <img  src={arrow} className={"airport-col arrow"}>
+        </img>
         <div className={"airport-col "}>
           <div className={" flightBoxColDestination"}>{destination}</div>
           <div className={" flightBoxColDestination"}>{readable_arrival}</div>
