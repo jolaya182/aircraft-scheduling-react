@@ -236,20 +236,46 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
    * @param {integer} newDepartureTime
    * @return {boolean} 
    */
-  const areTurnAroundsEnforced = (newDepartureTime) => {
+   const areTurnAroundsEnforced = (newFlight, newDepartureTime) => {
+    let isTurnAroundEnforced = true;
+    const { departuretime } = newFlight;
+    const direction = newDepartureTime >= departuretime ? 'forward' : 'backward';
     const newFinalEnd = newDepartureTime + REST_GAP;
     const dayFlights = rotationSchedule[currentDay];
-    const isTurnAroundEnforced = dayFlights.every((flight) => {
-      const { departuretime, finalEndTime } = flight;
-      return (newDepartureTime >= departuretime &&
-        newDepartureTime <= finalEndTime) ||
-        (newFinalEnd >= departuretime && newFinalEnd <= finalEndTime)
-        ? false
-        : true;
-    });
-
+    const indexFound = dayFlights.reduce((acc, flight, index) => {
+      console.log('flight', flight, 'newFlight', newFlight);
+      const didFind = flight.id === newFlight.id ? true : false;
+      if (didFind) return index;
+      acc += 0;
+      return acc;
+    }, {});
+  
+    if (indexFound || indexFound === 0) {
+      if (direction === 'backward') {
+        const prevDay = getPreviousDay(indexFound);
+        if (dayFlights[prevDay]) {
+          const { finalEndTime } = dayFlights[prevDay];
+          if (newDepartureTime <= finalEndTime) {
+            console.log('backward is false');
+            isTurnAroundEnforced = false;
+            return isTurnAroundEnforced;
+          }
+        }
+      } else {
+        const nextDay = getNextDay(indexFound);
+        if (dayFlights[nextDay]) {
+          const { departuretime } = dayFlights[nextDay];
+          if (newFinalEnd >= departuretime) {
+            console.log('forward is false');
+            isTurnAroundEnforced = false;
+            return isTurnAroundEnforced;
+          }
+        }
+      }
+    }
     return isTurnAroundEnforced;
   };
+  
 
   /**
    *  enforces the rule that only flights are editable starting tomorrow
@@ -271,7 +297,7 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
   const areRulesEnforced = (newFlight, newDepartureTime) => {
     if (
       areFlightsGroundedMidNight(newFlight, newDepartureTime) &&
-      areTurnAroundsEnforced(newDepartureTime) &&
+      areTurnAroundsEnforced(newFlight,newDepartureTime) &&
       isProposedDepartureAfterTomorrow()
     )
       return true;
