@@ -6,17 +6,17 @@ Client application in where the user edits the flights listed.
 ## to get the repo:
 
 ```
-git clone https://github.com/jolaya182/reactHooksChicory.git
+git clone https://github.com/jolaya182/aircraft-scheduling-react.git
 
 ```
-To run go to the folder: 
+To run, go to the folder: aircraft-scheduling-react
 
-To install:aircraft-scheduling-react
+To install:
 ```
 npm  i
 ```
 
-To run go to the src folder:
+To run, go to the src folder:
 
 ```
 npm run build
