@@ -9,10 +9,21 @@
  */
 import { useState, useEffect } from 'react';
 
+/**
+ *
+ *
+ * @param {string} AIRCRAFTS_SERVER
+ * @return {object} 
+ */
 const UseAircraftsFromServer = (AIRCRAFTS_SERVER) => {
   const [allAircrafts, setAirCrafts] = useState([{ ident: 'loading' }]);
   const [currentAircraft, setCurrentAircraft] = useState();
 
+  /**
+   * stores the aircrafts after the server api call
+   *
+   * @param {object} aircrafts
+   */
   const processIncomingAircraftData = (aircrafts) => {
     const { data } = aircrafts;
     setAirCrafts(data);
@@ -20,6 +31,10 @@ const UseAircraftsFromServer = (AIRCRAFTS_SERVER) => {
     if (data.length > 0) setCurrentAircraft(firstAircraftName);
   };
 
+  /**
+   *  retrieves all the aircrafts using a fetch call
+   *
+   */
   const fetchAirCrafts = () => {
     fetch(AIRCRAFTS_SERVER)
       .then((response) => {

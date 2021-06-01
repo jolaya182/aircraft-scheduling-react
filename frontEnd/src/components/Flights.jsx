@@ -11,8 +11,13 @@ import FlightLocationTime from './FlightLocationTime';
 import DepartureForm from './DepartureForm';
 import { Card } from 'react-bootstrap';
 
+/**
+ *
+ *
+ * @param {Array, function, function} { flights, getRotationFlightDay, editDepartureTime }
+ * @return {Component} 
+ */
 const Flights = ({ flights, getRotationFlightDay, editDepartureTime }) => {
-  //
   return (
     <>
       <main>

@@ -7,6 +7,12 @@
  *
  * description: displays the header with the name of the current aircraft
  */
+/**
+ *
+ *
+ * @param {string} {currentAircraft}
+ * @return {component} 
+ */
 const AirportHeader = ({currentAircraft}) => {
   return (
       <div className={"airport-row"}>

@@ -8,6 +8,12 @@
  * description: the flight in the rotation list
  */
 import arrow from '../../images/arrow.svg';
+/**
+ *
+ *
+ * @param {object} { flight }
+ * @return {Component} 
+ */
 const RotationFlight = ({ flight }) => {
   const {  origin, readable_departure, destination, readable_arrival, day } =
     flight;

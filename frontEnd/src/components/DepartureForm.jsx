@@ -8,6 +8,12 @@
  * description: form used to edit the flight's time
  */
 import { Form, Button } from 'react-bootstrap';
+/**
+ *
+ *
+ * @param {function} { editDepartureTime }
+ * @return {Component} 
+ */
 const DepartureForm = ({ editDepartureTime }) => {
   return (
     <Form>

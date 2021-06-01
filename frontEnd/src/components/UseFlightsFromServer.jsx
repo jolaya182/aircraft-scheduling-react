@@ -10,6 +10,12 @@
 import { useState, useEffect } from 'react';
 import { TOTAL_SECONDS_DAY, REST_GAP, DEFAULT_SCHEDULE } from '../const/const';
 
+/**
+ *
+ *
+ * @param {string} FLIGHTS_SERVER
+ * @return {Component} 
+ */
 const UseFlightsFromServer = (FLIGHTS_SERVER) => {
   const [airCraftPercentageUsage, setAirCraftPercentageUsage] = useState('loading');
   const [currentDay, setCurrentDay] = useState(0);
@@ -28,6 +34,13 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
   const hasReachedNextDay = (arrivaltime, nextDayDeparturetime) =>arrivaltime > nextDayDeparturetime;
   const getFinalEndTime = (arrivaltime) => arrivaltime + REST_GAP;
 
+  /**
+   *  goes through all the flights in a day and 
+   *  determines the percentage was used during that day.
+   *
+   * @param {array} flights
+   * @return {integer} 
+   */
   const getAirCraftPercentageUse = (flights) => {
     const totalSecondsPerDay = flights.reduce((totalSeconds, flight) => {
       const { duration } = flight;
@@ -38,6 +51,14 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return result;
   };
 
+  /**
+   * added helpful properties the flights
+   *
+   * @param {integer} arrivaltime
+   * @param {integer} departuretime
+   * @param {integer} day
+   * @return {object} 
+   */
   const adddDurationPercentInputEndtimeDayProperties = (
     arrivaltime,
     departuretime,
@@ -56,6 +77,13 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return flightWithNewProperties;
   };
 
+  /**
+   * goes through all the flights determining which day it pertains to
+   *
+   * @param {array} data
+   * @param {object} dayDurationRotationFlightProcessedScheduledObj
+   * @return {object} 
+   */
   const seperateFlightsByDay = (
     data,
     dayDurationRotationFlightProcessedScheduledObj
@@ -129,6 +157,12 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     );
   };
 
+  /**
+   * creates the variables to start separating the flights per day
+   *
+   * @param {array} data
+   * @return {object} 
+   */
   const getFlightsProcessed = (data) => {
     let dayDurationRotationFlightProcessedScheduledObj = {
       newRotationScheduleProcessed: {},
@@ -145,7 +179,12 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return { totalFlightDays, newRotationScheduleProcessed };
   };
 
-  //processing data functions
+  /**
+   *  starts setring the variables and functions to 
+   * process the incoming flights
+   *
+   * @param {object} airFlightData
+   */
   const processIncomingAirFlightData = (airFlightData) => {
     const { data } = airFlightData;
     const { totalFlightDays, newRotationScheduleProcessed } = getFlightsProcessed(data);
@@ -160,7 +199,10 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     }
   };
 
-  // fetch data
+  /**
+   *  retrieves the flights form the flight server
+   *
+   */
   const fetchAirFlights = () => {
     fetch(FLIGHTS_SERVER)
       .then((response) => {
@@ -171,6 +213,14 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
       });
   };
 
+  /**
+   *  enforces the rule that flights cannot travel going from night into 
+   *  the morning
+   *
+   * @param {integer} newFlight
+   * @param {integer} departureTime
+   * @return {boolean} 
+   */
   const areFlightsGroundedMidNight = (newFlight, departureTime) => {
     const { duration } = newFlight;
     const newArrivalTime = departureTime + duration;
@@ -179,6 +229,13 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return areFlightsGroundedMidNightEnforeced;
   };
 
+  /**
+   * enforces the rule that each flight has a gap to be respected
+   * once the aircraft has arrived
+   *
+   * @param {integer} newDepartureTime
+   * @return {boolean} 
+   */
   const areTurnAroundsEnforced = (newDepartureTime) => {
     const newFinalEnd = newDepartureTime + REST_GAP;
     const dayFlights = rotationSchedule[currentDay];
@@ -194,11 +251,23 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return isTurnAroundEnforced;
   };
 
+  /**
+   *  enforces the rule that only flights are editable starting tomorrow
+   *
+   * @return {boolean} 
+   */
   const isProposedDepartureAfterTomorrow = () => {
     const isScheduleAfterTomorrow = currentDay != 0 ? true : false;
     return isScheduleAfterTomorrow;
   };
 
+  /**
+   * checks that all rules are enforced
+   *
+   * @param {object} newFlight
+   * @param {integer} newDepartureTime
+   * @return {boolean} 
+   */
   const areRulesEnforced = (newFlight, newDepartureTime) => {
     if (
       areFlightsGroundedMidNight(newFlight, newDepartureTime) &&
@@ -209,31 +278,63 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return false;
   };
 
+  /**
+   * adds replaces old flight with a new flight
+   *
+   * @param {array} flightsInCurrentDay
+   * @param {object} newFlight
+   * @return {array} 
+   */
   const setNewFlight = (flightsInCurrentDay, newFlight) => {
     return flightsInCurrentDay.map((flight) =>
       flight.id != newFlight.id ? flight : newFlight
     );
   };
 
-  //convert this to minutes
+  
+  /**
+   * converts integers to minutes
+   *
+   * @param {integer} hour
+   * @param {integer} minutes
+   * @param {string} amPm
+   * @return {integer} 
+   */
   const convertToSeconds = (hour, minutes, amPm) => {
+    hour = Number(hour);
+    minutes = Number(minutes);
+    console.log("hour", hour)
     let newHour = hour > 12 ? hour - 12 : hour;
-    if (amPm === 'pm') newHour = hour + (12 - (12 - hour));
-    const convertedSeconds = newHour * 60 * 60 + minutes * 60;
+    console.log("amPm", amPm)
+    if (amPm === 'pm') newHour = hour + 12;
+    console.log("hour->", newHour)
+    const convertedSeconds = newHour === 24 ? TOTAL_SECONDS_DAY : newHour * 60 * 60 + minutes * 60;
     return convertedSeconds;
   };
 
+  /**
+   *  interprests the time into a string
+   *
+   * @param {integer} totalSeconds
+   * @return {string} 
+   */
   const convertMinutesToReableTime = (totalSeconds) => {
     let hours = Math.floor(totalSeconds / 3600);
     let minutes = (totalSeconds % 3600) / 60;
     hours = hours > 12 ? hours - 12 : hours;
     minutes = minutes === 0 ? '00' : minutes.toString();
-    var newH = hours;
     hours = hours < 10 ? '0' + hours.toString() : hours.toString();
     const convertedReadableTime = hours + ':' + minutes;
     return convertedReadableTime;
   };
 
+  /**
+   *  checks if time are valid numbers
+   *
+   * @param {integer} hour
+   * @param {integer} minutes
+   * @return {boolean} 
+   */
   const isInputValid = (hour, minutes) => {
     if (isNaN(hour) === true || isNaN(minutes) === true) {
       alert('please enter numbers');
@@ -248,10 +349,33 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     return true;
   };
 
-  const getNewArrivalTime = (newDepartureTime, duration) =>
-    newDepartureTime + duration;
+  /**
+   *  get new arrivale time
+   *
+   * @param {integer} newDepartureTime
+   * @param {integer} duration
+   * @return {integer}
+   */
+  const getNewArrivalTime = (newDepartureTime, duration) => newDepartureTime + duration;
+  
+  /**
+   *  add gap time
+   *  
+   * @param {integere} newArrivalTime
+   */
   const getNewFinalEnd = (newArrivalTime) => newArrivalTime + REST_GAP;
 
+  /**
+   *  checks if the new flight edit is allowed and if so
+   *  then proceed to update the flight with the new 
+   *  time specified
+   *
+   * @param {integer} hour
+   * @param {integer} minutes
+   * @param {string} amPm
+   * @param {object} flight
+   * @return {*} 
+   */
   const editDepartureTime = (hour, minutes, amPm, flight) => {
     if (!isInputValid(hour, minutes)) return;
 
@@ -283,12 +407,25 @@ const UseFlightsFromServer = (FLIGHTS_SERVER) => {
     setRotationSchedule(newRotationSchedule);
   };
 
+  /**
+   *  gets an array of all the flights store
+   * in the rotationschedule
+   *
+   * @return {array} 
+   */
   const getAllFlights = () => {
     return Object.keys(rotationSchedule).map((day) => {
       return rotationSchedule[day];
     }, []);
   };
 
+  /**
+   *
+   *
+   * @param {integer} selectedId
+   * @param {integere} day
+   * @return {} 
+   */
   const getRotationFlightDay = (selectedId, day) => {
     // first day cannot be edited
     if (day === 0) return;

@@ -7,6 +7,18 @@
  *
  * description: component to display departure arrival time and locations
  */
+/**
+ *
+ *
+ * @param {string,string,string,string, integer} {
+ *   origin,
+ *   readable_departure,
+ *   destination,
+ *   readable_arrival,
+ *   day,
+ * }
+ * @return {*} 
+ */
 const FlightLocationTime = ({
   origin,
   readable_departure,

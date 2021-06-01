@@ -7,6 +7,12 @@
  *
  * description: simple pagination to display the date and navigate through the flights per day
  */
+/**
+ *
+ *
+ * @param {function , function, integer} {setNextDay, setPrevDay, currentDay}
+ * @return {component} 
+ */
 const Paginator = ({setNextDay, setPrevDay, currentDay}) => {
 
   let currentDate = new Date(2018, 0, (4+currentDay));

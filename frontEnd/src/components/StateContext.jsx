@@ -9,6 +9,7 @@
  */
 import { createContext } from 'react';
 
+/** @type {hook} */
 const StateContext = createContext({
     state:{
         restGapPercentage:0,

@@ -23,6 +23,12 @@ import ColumnContainer from './ColumnContainer';
 import AirportHeader from './AirportHeader';
 import UseFlightsFromServer from './UseFlightsFromServer';
 import UseAircraftsFromServer from './UseAircraftsFromServer';
+
+/**
+ *
+ *
+ * @return {component} 
+ */
 const App = () => {
   const state = {
     restGapPercentage: REST_GAP_PERCENTAGE,

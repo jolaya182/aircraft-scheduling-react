@@ -8,7 +8,15 @@
  * description: this component handles the list of aircrafts
  */
 
+import { Component } from 'react';
 import { Card } from 'react-bootstrap';
+
+/**
+ *
+ *
+ * @param {array} {allAircrafts, percentage}
+ * @return {Component} 
+ */
 const Aircrafts = ({allAircrafts, percentage}) => {
   return (
     <>

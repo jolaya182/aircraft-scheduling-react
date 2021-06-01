@@ -7,6 +7,13 @@
  *
  * description: this component separates the aircrafts rotation list and flights
  */
+
+/**
+ *
+ *
+ * @param {Component, boolean} {children, wide}
+ * @return {Component} 
+ */
 const ColumnContainer = ({children, wide})=>{
     return (
         <div className={ wide === true ? "column-middle": "column-side"}>

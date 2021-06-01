@@ -10,6 +10,12 @@
 import RotationTimeBox from './RotationTimeBox';
 import { useContext } from 'react';
 import StateContext from './StateContext';
+/**
+ *
+ *
+ * @param {object} { rotationSchedule }
+ * @return {Component} 
+ */
 const RotationTimeLine = ({ rotationSchedule }) => {
   const {state} = useContext(StateContext);
   const {totalSecondsDay} = state;

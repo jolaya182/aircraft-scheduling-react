@@ -10,6 +10,17 @@
 import { useContext } from 'react';
 import StateContext from './StateContext';
 
+/**
+ *
+ *
+ * @param {integer, string, integer, integer} {
+ *   percentageDifference,
+ *   color,
+ *   idleDistancePercentage,
+ *   lastIdlePercentage
+ * }
+ * @return {Component} 
+ */
 const RotationTimeBox = ({
   percentageDifference,
   color,

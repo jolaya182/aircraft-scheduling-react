@@ -11,6 +11,12 @@ import RotationFlight from './RotationFlight';
 import RotationTimeLine from './RotationTimeLine';
 import { Card } from 'react-bootstrap';
 
+/**
+ *
+ *
+ * @param {object} { rotationSchedule }
+ * @return {Component} 
+ */
 const RotationList = ({ rotationSchedule }) => {
   return (
     <>
