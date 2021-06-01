@@ -16,7 +16,7 @@ import {
   REST_GAP_PERCENTAGE,
 } from '../const/const';
 import RotationList from './RotationList';
-import Aircrafts from './AirCrafts';
+import Aircrafts from './Aircrafts';
 import Flights from './Flights';
 import Paginator from './Paginator';
 import ColumnContainer from './ColumnContainer';
