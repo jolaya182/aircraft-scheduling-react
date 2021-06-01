@@ -1,7 +1,7 @@
 # aircraft-scheduling-react
 
 Client application in where the user edits the flights listed.
-<img src="" title="alpha"/>
+<img src="./frontEnd/images/alpha.gif" title="alpha"/>
 
 ## to get the repo:
 
